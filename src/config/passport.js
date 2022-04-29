@@ -1,15 +1,17 @@
+const res = require('express/lib/response');
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
 const User = require('../models/User');
 
 passport.use(new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'name_form',
     passwordField: 'password'
-}, async (email, password, done) => {
+}, async (name_form, password, done) => {
     
     // Comprobar si existe el usuario
-    const user = await User.findOne({ email })
+    const name = name_form.toUpperCase()
+    const user = await User.findOne({ name })
     if(!user) {
         return done(null, false, { message: 'No se encontró el usuario' })
     } else {

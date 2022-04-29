@@ -8,7 +8,8 @@ usersCtrl.renderSignUpForm = (req, res) => {
 
 usersCtrl.signup = async (req, res) => {
     const errors = []
-    const { name, email, password, confirm_password } = req.body
+    const { name_form, email, password, confirm_password } = req.body
+    const name = name_form.toUpperCase()
     if (password != confirm_password) {
         errors.push({ text: 'Las contraseñas no coinciden' })
     }
@@ -24,7 +25,7 @@ usersCtrl.signup = async (req, res) => {
             confirm_password
         })
     } else {
-        const userUnique = await User.findOne({name: name})
+        const userUnique = await User.findOne({name: name })
         if (userUnique) {
             req.flash('error_msg', 'El usuario ya existe')
             res.redirect('/users/signup')
